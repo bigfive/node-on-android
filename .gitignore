@@ -4,9 +4,17 @@
 /.idea/workspace.xml
 /.idea/libraries
 .DS_Store
-/build
 /captures
 .externalNativeBuild
-app/app-release.apk
-example/node_modules/**
-example/build/*.apk
+
+# app build artifacts
+/app/build
+/app/.cxx
+/app/app-release.apk
+
+# cli
+/cli/node_modules
+
+# example
+/example/node_modules
+/example/build/*.apk
