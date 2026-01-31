@@ -7,7 +7,9 @@ import android.content.IntentFilter;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -40,6 +42,16 @@ public class MainActivity extends AppCompatActivity {
         browser.getSettings().setLoadWithOverviewMode(true);
         browser.getSettings().setUseWideViewPort(true);
         browser.getSettings().setJavaScriptEnabled(true);
+        // Keep WebView invisible until content is ready - shows splash screen
+        browser.setVisibility(View.INVISIBLE);
+
+        // Show WebView only when page finishes loading
+        browser.setWebViewClient(new WebViewClient() {
+            @Override
+            public void onPageFinished(WebView view, String url) {
+                view.setVisibility(View.VISIBLE);
+            }
+        });
 
         final Context me = this;
 
@@ -80,7 +92,10 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onReceive(Context context, Intent intent) {
             String loadUrl = intent.getStringExtra("loadUrl");
-            if (loadUrl != null) browser.loadUrl(loadUrl);
+            if (loadUrl != null) {
+                // Load content - WebViewClient will make it visible when ready
+                browser.loadUrl(loadUrl);
+            }
         }
     }
 }
